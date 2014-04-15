@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Todo application on the Backbone!</title>
+<title>Todo application on the Backbone with Marionette !</title>
 
 <!-- Bootstrap -->
 <link href="../../../vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -16,21 +16,14 @@
     <![endif]-->
 </head>
 <body>
-    <h1>Todo application on the Backbone!</h1>
+    <h1>Todo application on the Backbone with Marionette !</h1>
 
     <div id="todoApp">
 
         <div id="todoInputView">
-            <div class="form-group">
-                <div>
-                    <input id="title" class="form-control" placeholder="What needs to be done ?" autofocus="autofocus">
-                </div>
-            </div>
         </div>
 
         <div id="todosView">
-            <table id="todoCollection" class="table table-hover">
-            </table>
         </div>
 
     </div>
@@ -40,9 +33,22 @@
     <script src="../../../vendor/JSON-js/js/json2.js"></script>
     <script src="../../../vendor/bootstrap/js/bootstrap.js"></script>
     <script src="../../../vendor/backbone/js/backbone.js"></script>
+    <script src="../../../vendor/backbone.wreqr/js/backbone.wreqr.js"></script>
+    <script src="../../../vendor/backbone.babysitter/js/backbone.babysitter.js"></script>
+    <script src="../../../vendor/backbone.marionette/js/backbone.marionette.js"></script>
     <script src="./todoApp.js"></script>
-
-    <script type="text/template" id="todoTemplate">
+    <script type="text/html" id="inputTemplate">
+        <div class="form-group">
+            <div>
+                <input id="title" class="form-control" placeholder="What needs to be done ?" autofocus="autofocus">
+            </div>
+        </div>
+    </script>
+    <script type="text/html" id="todosTemplate">
+        <table id="todoCollection" class="table table-hover">
+        </table>
+    </script>
+    <script type="text/html" id="todoTemplate">
         <td class="completedIcon">
             <input class="toggle glyphicon glyphicon-ok" type="checkbox" <%= completed ? 'checked="checked"' : '' %> />
         </td>
@@ -51,7 +57,7 @@
             <input class="title form-control" value="<%- title %>">
         </td>
         <td class="destroyIcon">
-            <button class="destroy glyphicon glyphicon-trash" title="remove"></button>
+            <a class="destroy glyphicon glyphicon-trash" title="remove"></a>
         </td>
     </script>
 

@@ -21,6 +21,7 @@ $(function() {
                 completed : !this.get("completed")
             });
         }
+
     });
 
     TodoCollection = Backbone.Collection.extend({
@@ -41,9 +42,6 @@ $(function() {
         initialize : function() {
             this.$title = this.$("#title");
         },
-        render : function() {
-            return this;
-        },
         input : function(e) {
             if (e.which === RETURN_KEY) {
                 this.add();
@@ -55,6 +53,7 @@ $(function() {
             });
             this.$title.val("");
         }
+
     });
 
     TodoView = Backbone.View.extend({
@@ -100,6 +99,7 @@ $(function() {
         destroy : function() {
             this.model.destroy();
         }
+
     });
 
     TodoCollectionView = Backbone.View.extend({
@@ -108,10 +108,6 @@ $(function() {
 
         initialize : function() {
             this.listenTo(this.model, 'add', this.addOne);
-            this.model.fetch();
-        },
-        render : function() {
-            return this;
         },
         addOne : function(todo) {
             var todoView = new TodoView({
@@ -119,26 +115,32 @@ $(function() {
             });
             this.$("#todoCollection").append(todoView.render().el);
         },
+
     });
 
     TodoAppView = Backbone.View.extend({
 
         el : $("#todoApp"),
 
-        initialize : function() {
+        render : function() {
             this.todos = new TodoCollection();
             this.todoInputView = new TodoInputView({
                 model : this.todos
             });
+            this.todoInputView.render();
             this.todosCollectionView = new TodoCollectionView({
                 model : this.todos
             });
+            this.todosCollectionView.render();
+            this.todos.fetch();
         }
+
     });
 
     // --------
     // start todo management Application
     // --------
     var todoAppView = new TodoAppView();
+    todoAppView.render();
 
 });
