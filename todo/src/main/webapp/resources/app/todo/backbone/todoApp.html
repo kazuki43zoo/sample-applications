@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Todo application on the Backbone !</title>
 
-<!-- Bootstrap -->
+<!-- load style sheet -->
 <link href="../../../vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="../todoApp.css" rel="stylesheet">
 
@@ -36,6 +36,7 @@
             </div>
         </nav>
     </header>
+
     <h1>Todo application on the Backbone !</h1>
 
     <div id="todoApp">
@@ -54,6 +55,8 @@
         </div>
 
     </div>
+
+    <!-- load scripts -->
     <script src="../../../vendor/jquery/js/jquery.js"></script>
     <script src="../../../vendor/underscore/js/underscore.js"></script>
     <script src="../../../vendor/JSON-js/js/json2.js"></script>
@@ -61,6 +64,7 @@
     <script src="../../../vendor/backbone/js/backbone.js"></script>
     <script src="./todoApp.js"></script>
 
+    <!-- define templates -->
     <script type="text/template" id="todoTemplate">
         <td class="completedIcon">
             <input class="toggle glyphicon glyphicon-ok" type="checkbox" <%= completed ? 'checked="checked"' : '' %> />

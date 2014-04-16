@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Todo application on the Backbone with Marionette !</title>
 
-<!-- Bootstrap -->
+<!-- load style sheet -->
 <link href="../../../vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="../todoApp.css" rel="stylesheet">
 
@@ -15,6 +15,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
+
 <body>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -27,8 +28,7 @@
                             <li><a href="../">Go to top</a></li>
                             <li class="divider"></li>
                             <li><a href="../backbone/todoApp.html">Go to Backbone</a></li>
-                        </ul>
-                    </li>
+                        </ul></li>
                 </ul>
             </div>
         </div>
@@ -38,12 +38,26 @@
 
     <div id="todoApp">
 
-        <div id="todoInputView"></div>
+        <div id="todoInputView">
+            <script type="text/template" id="inputTemplate">
+                <div class="form-group">
+                    <div>
+                        <input id="title" class="form-control" placeholder="What needs to be done ?" autofocus="autofocus">
+                    </div>
+                </div>
+            </script>
+        </div>
 
-        <div id="todosView"></div>
+        <div id="todosView">
+            <script type="text/template" id="todosTemplate">
+                <table id="todoCollection" class="table table-hover">
+                </table>
+            </script>
+        </div>
 
     </div>
 
+    <!-- load scripts -->
     <script src="../../../vendor/jquery/js/jquery.js"></script>
     <script src="../../../vendor/underscore/js/underscore.js"></script>
     <script src="../../../vendor/JSON-js/js/json2.js"></script>
@@ -53,17 +67,8 @@
     <script src="../../../vendor/backbone.babysitter/js/backbone.babysitter.js"></script>
     <script src="../../../vendor/backbone.marionette/js/backbone.marionette.js"></script>
     <script src="./todoApp.js"></script>
-    <script type="text/template" id="inputTemplate">
-        <div class="form-group">
-            <div>
-                <input id="title" class="form-control" placeholder="What needs to be done ?" autofocus="autofocus">
-            </div>
-        </div>
-    </script>
-    <script type="text/template" id="todosTemplate">
-        <table id="todoCollection" class="table table-hover">
-        </table>
-    </script>
+
+    <!-- define templates -->
     <script type="text/template" id="todoTemplate">
         <td class="completedIcon">
             <input class="toggle glyphicon glyphicon-ok" type="checkbox" <%= completed ? 'checked="checked"' : '' %> />

@@ -1,4 +1,8 @@
+'use strict';
+
 var RETURN_KEY = 13;
+
+var todoApp = todoApp || {};
 
 $(function() {
 
@@ -6,7 +10,7 @@ $(function() {
     // Models
     // --------
 
-    Todo = Backbone.Model.extend({
+    todoApp.Todo = Backbone.Model.extend({
 
         idAttribute : "todoId",
         defaults : function() {
@@ -16,41 +20,41 @@ $(function() {
             };
         },
 
-        toggle : function() {
+        toggleCompleted : function() {
             return this.set("completed", !this.get("completed"));
         }
 
     });
 
-    TodoCollection = Backbone.Collection.extend({
+    todoApp.TodoCollection = Backbone.Collection.extend({
         url : "../../../../api/v1/todos",
-        model : Todo
+        model : todoApp.Todo
     });
 
     // --------
     // Views
     // --------
-    TodoInputView = Backbone.View.extend({
+    todoApp.TodoInputView = Backbone.View.extend({
 
         events : {
             "keypress #title" : "doInputting"
         },
 
         initialize : function() {
-            this.$title = this.$("#title");
+            this.$titleInput = this.$("#title");
         },
         doInputting : function(event) {
             if (event.which === RETURN_KEY) {
                 this.model.create({
-                    title : this.$title.val()
+                    title : this.$titleInput.val()
                 });
-                this.$title.val("");
+                this.$titleInput.val("");
             }
         },
 
     });
 
-    TodoView = Backbone.View.extend({
+    todoApp.TodoView = Backbone.View.extend({
 
         tagName : "tr",
         template : _.template($("#todoTemplate").html()),
@@ -69,26 +73,27 @@ $(function() {
         render : function() {
             this.$el.html(this.template(this.model.toJSON()));
             this.$el.toggleClass("completed", this.model.get("completed"));
-            this.$title = this.$(".title");
+            this.$titleInput = this.$(".title");
             return this;
         },
         toggleCompleted : function() {
-            this.model.toggle().save();
+            this.model.toggleCompleted().save();
         },
         beginEditing : function() {
             this.$el.addClass("editable");
-            this.$title.focus();
+            this.$titleInput.focus();
         },
         doEditing : function(event) {
             if (event.which === RETURN_KEY) {
+                this.model.save({
+                    title : this.$titleInput.val()
+                });
                 this.finishEditing();
             }
         },
         finishEditing : function() {
             this.$el.removeClass("editable");
-            this.model.save({
-                title : this.$title.val()
-            });
+            this.$titleInput.val(this.model.get("title"));
         },
         destroy : function() {
             this.model.destroy();
@@ -96,13 +101,13 @@ $(function() {
 
     });
 
-    TodoCollectionView = Backbone.View.extend({
+    todoApp.TodoCollectionView = Backbone.View.extend({
 
         initialize : function() {
             this.listenTo(this.model, 'add', this.addOne);
         },
         addOne : function(todo) {
-            var todoView = new TodoView({
+            var todoView = new todoApp.TodoView({
                 model : todo
             });
             this.$("#todoCollection").append(todoView.render().el);
@@ -110,18 +115,18 @@ $(function() {
 
     });
 
-    TodoAppView = Backbone.View.extend({
+    todoApp.TodoAppView = Backbone.View.extend({
 
         el : $("#todoApp"),
 
         render : function() {
-            this.todos = new TodoCollection();
-            this.todoInputView = new TodoInputView({
+            this.todos = new todoApp.TodoCollection();
+            this.todoInputView = new todoApp.TodoInputView({
                 el : $("#todoInputView"),
                 model : this.todos
             });
             this.todoInputView.render();
-            this.todosCollectionView = new TodoCollectionView({
+            this.todosCollectionView = new todoApp.TodoCollectionView({
                 el : $("#todosView"),
                 model : this.todos
             });
@@ -134,7 +139,7 @@ $(function() {
     // --------
     // start todo management Application
     // --------
-    var todoAppView = new TodoAppView();
+    var todoAppView = new todoApp.TodoAppView();
     todoAppView.render();
 
 });
