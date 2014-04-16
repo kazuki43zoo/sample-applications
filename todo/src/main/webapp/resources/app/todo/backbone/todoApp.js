@@ -1,6 +1,6 @@
 'use strict';
 
-var RETURN_KEY = 13;
+var ENTER_KEY = 13;
 
 var todoApp = todoApp || {};
 
@@ -37,14 +37,14 @@ $(function() {
     todoApp.TodoInputView = Backbone.View.extend({
 
         events : {
-            "keypress #title" : "doInputting"
+            "keyup #title" : "doInputting"
         },
 
         initialize : function() {
             this.$titleInput = this.$("#title");
         },
         doInputting : function(event) {
-            if (event.which === RETURN_KEY) {
+            if (event.keyCode === ENTER_KEY) {
                 this.model.create({
                     title : this.$titleInput.val()
                 });
@@ -61,7 +61,7 @@ $(function() {
         events : {
             "click .toggle" : "toggleCompleted",
             "click label" : "beginEditing",
-            "keypress .title" : "doEditing",
+            "keyup .title" : "doEditing",
             "blur .title" : "finishEditing",
             "click .destroy" : "destroy"
         },
@@ -84,7 +84,7 @@ $(function() {
             this.$titleInput.focus();
         },
         doEditing : function(event) {
-            if (event.which === RETURN_KEY) {
+            if (event.keyCode === ENTER_KEY) {
                 this.model.save({
                     title : this.$titleInput.val()
                 });
@@ -104,7 +104,7 @@ $(function() {
     todoApp.TodoCollectionView = Backbone.View.extend({
 
         initialize : function() {
-            this.listenTo(this.model, 'add', this.addOne);
+            this.listenTo(this.model, "add", this.addOne);
         },
         addOne : function(todo) {
             var todoView = new todoApp.TodoView({

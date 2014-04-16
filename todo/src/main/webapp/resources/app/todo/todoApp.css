@@ -83,3 +83,8 @@ h1 {
 .editable label {
 	display: none !important;
 }
+
+.completedIcon .toggle:focus {
+	outline-style: none;
+}
+}

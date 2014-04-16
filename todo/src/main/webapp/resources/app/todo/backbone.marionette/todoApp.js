@@ -1,11 +1,11 @@
 'use strict';
 
-var RETURN_KEY = 13;
+var ENTER_KEY = 13;
 
 var todoApp = new Backbone.Marionette.Application();
 todoApp.addRegions({
-    todoInputView : '#todoInputView',
-    todosView : '#todosView'
+    todoInputView : "#todoInputView",
+    todosView : "#todosView"
 });
 todoApp.on("initialize:after", function() {
     this.todos = new todoApp.models.TodoCollection();
@@ -58,11 +58,11 @@ todoApp.module("views", function(views) {
             titleInput : "#title"
         },
         events : {
-            "keypress @ui.titleInput" : "doInputting"
+            "keyup @ui.titleInput" : "doInputting"
         },
 
         doInputting : function(event) {
-            if (event.which === RETURN_KEY) {
+            if (event.keyCode === ENTER_KEY) {
                 this.collection.create({
                     title : this.ui.titleInput.val()
                 });
@@ -85,7 +85,7 @@ todoApp.module("views", function(views) {
         events : {
             "click @ui.toggle" : "toggleCompleted",
             "click @ui.titleLabel" : "beginEditing",
-            "keypress @ui.titleInput" : "doEditing",
+            "keyup @ui.titleInput" : "doEditing",
             "blur @ui.titleInput" : "finishEditing",
             "click @ui.removeBtn" : "destroy"
         },
@@ -95,17 +95,17 @@ todoApp.module("views", function(views) {
         },
 
         onRender : function() {
-            this.$el.toggleClass('completed', this.model.get('completed'));
+            this.$el.toggleClass("completed", this.model.get("completed"));
         },
         toggleCompleted : function() {
             this.model.toggleCompleted().save();
         },
         beginEditing : function() {
-            this.$el.addClass('editable');
+            this.$el.addClass("editable");
             this.ui.titleInput.focus();
         },
         doEditing : function(event) {
-            if (event.which === RETURN_KEY) {
+            if (event.keyCode === ENTER_KEY) {
                 this.model.save({
                     title : this.ui.titleInput.val()
                 });
@@ -113,7 +113,7 @@ todoApp.module("views", function(views) {
             }
         },
         finishEditing : function() {
-            this.$el.removeClass('editable');
+            this.$el.removeClass("editable");
             this.ui.titleInput.val(this.model.get("title"));
         },
         destroy : function() {
