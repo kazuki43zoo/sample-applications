@@ -17,9 +17,7 @@ $(function() {
         },
 
         toggle : function() {
-            this.save({
-                completed : !this.get("completed")
-            });
+            return this.set("completed", !this.get("completed"));
         }
 
     });
@@ -34,64 +32,60 @@ $(function() {
     // --------
     TodoInputView = Backbone.View.extend({
 
-        el : $("#todoInputView"),
         events : {
-            'keypress #title' : 'input'
+            "keypress #title" : "doInputting"
         },
 
         initialize : function() {
             this.$title = this.$("#title");
         },
-        input : function(e) {
-            if (e.which === RETURN_KEY) {
-                this.add();
+        doInputting : function(event) {
+            if (event.which === RETURN_KEY) {
+                this.model.create({
+                    title : this.$title.val()
+                });
+                this.$title.val("");
             }
         },
-        add : function() {
-            this.model.create({
-                title : this.$title.val()
-            });
-            this.$title.val("");
-        }
 
     });
 
     TodoView = Backbone.View.extend({
 
         tagName : "tr",
-        template : _.template($('#todoTemplate').html()),
+        template : _.template($("#todoTemplate").html()),
         events : {
             "click .toggle" : "toggleCompleted",
-            'click label' : 'viewEditing',
-            'keypress .title' : 'edit',
-            'blur .title' : 'closeEditing',
+            "click label" : "beginEditing",
+            "keypress .title" : "doEditing",
+            "blur .title" : "finishEditing",
             "click .destroy" : "destroy"
         },
 
         initialize : function() {
-            this.listenTo(this.model, 'change', this.render);
-            this.listenTo(this.model, 'destroy', this.remove);
+            this.listenTo(this.model, "change", this.render);
+            this.listenTo(this.model, "destroy", this.remove);
         },
         render : function() {
             this.$el.html(this.template(this.model.toJSON()));
-            this.$el.toggleClass('completed', this.model.get('completed'));
+            this.$el.toggleClass("completed", this.model.get("completed"));
             this.$title = this.$(".title");
             return this;
         },
         toggleCompleted : function() {
-            this.model.toggle();
+            this.model.toggle().save();
         },
-        viewEditing : function() {
-            this.$el.addClass('editing');
+        beginEditing : function() {
+            this.$el.addClass("editable");
             this.$title.focus();
         },
-        edit : function(e) {
-            if (e.which === RETURN_KEY) {
-                this.closeEditing();
+        doEditing : function(event) {
+            if (event.which === RETURN_KEY) {
+                this.finishEditing();
             }
         },
-        closeEditing : function() {
-            this.$el.removeClass('editing');
+        finishEditing : function() {
+            this.$el.removeClass("editable");
             this.model.save({
                 title : this.$title.val()
             });
@@ -103,8 +97,6 @@ $(function() {
     });
 
     TodoCollectionView = Backbone.View.extend({
-
-        el : $("#todosView"),
 
         initialize : function() {
             this.listenTo(this.model, 'add', this.addOne);
@@ -125,10 +117,12 @@ $(function() {
         render : function() {
             this.todos = new TodoCollection();
             this.todoInputView = new TodoInputView({
+                el : $("#todoInputView"),
                 model : this.todos
             });
             this.todoInputView.render();
             this.todosCollectionView = new TodoCollectionView({
+                el : $("#todosView"),
                 model : this.todos
             });
             this.todosCollectionView.render();

@@ -2,6 +2,12 @@ h1 {
 	text-align: center;
 }
 
+#todoAppLinks {
+	text-align: center;
+	margin-left: 25%;
+	margin-right: 25%;
+}
+
 #todoApp {
 	margin-left: 50px;
 	margin-right: 50px;
@@ -70,10 +76,10 @@ h1 {
 	display: none;
 }
 
-.editing .title {
+.editable .title {
 	display: block !important;
 }
 
-.editing label {
+.editable label {
 	display: none !important;
 }

@@ -1,13 +1,28 @@
 var RETURN_KEY = 13;
 
+var todoApp = new Backbone.Marionette.Application();
+todoApp.on("initialize:before", function() {
+    this.todos = new todoApp.models.TodoCollection();
+    this.todoInputView = new todoApp.views.TodoInputView({
+        el : $("#todoInputView"),
+        collection : this.todos
+    });
+    this.todosCollectionView = new todoApp.views.TodoCollectionView({
+        el : $("#todosView"),
+        collection : this.todos
+    });
+}).on("initialize:after", function() {
+    this.todoInputView.render();
+    this.todosCollectionView.render();
+    this.todos.fetch();
+});
+
 $(function() {
-
-    var todoApp = new Backbone.Marionette.Application();
-
     // --------
     // Models
     // --------
     todoApp.module("models", function(models) {
+
         models.Todo = Backbone.Model.extend({
 
             idAttribute : "todoId",
@@ -18,11 +33,10 @@ $(function() {
                 };
             },
 
-            toggle : function() {
-                this.save({
-                    completed : !this.get("completed")
-                });
+            toggleCompleted : function() {
+                return this.set("completed", !this.get("completed"));
             }
+
         });
 
         models.TodoCollection = Backbone.Collection.extend({
@@ -36,64 +50,69 @@ $(function() {
     // Views
     // --------
     todoApp.module("views", function(views) {
+
         views.TodoInputView = Marionette.ItemView.extend({
-            el : $("#todoInputView"),
+
             template : "#inputTemplate",
             ui : {
-                $title : "#title"
+                title : "#title"
             },
             events : {
-                "keypress #title" : "input"
+                "keypress @ui.title" : "doInputting"
             },
-            input : function(e) {
-                if (e.which === RETURN_KEY) {
-                    this.add();
+
+            doInputting : function(event) {
+                if (event.which === RETURN_KEY) {
+                    this.collection.create({
+                        title : this.ui.title.val()
+                    });
+                    this.ui.title.val("");
                 }
-            },
-            add : function() {
-                this.model.create({
-                    title : this.ui.$title.val()
-                });
-                this.ui.$title.val("");
             }
+
         });
 
         views.TodoView = Marionette.ItemView.extend({
+
             tagName : "tr",
             template : "#todoTemplate",
             ui : {
-                $title : ".title"
+                toggle : ".toggle",
+                titleInput : ".title",
+                titleLabel : "label",
+                removeBtn : ".destroy",
             },
             events : {
-                "click .toggle" : "toggleCompleted",
-                "click label" : "viewEditing",
-                "keypress .title" : "edit",
-                "blur .title" : "closeEditing",
-                "click .destroy" : "destroy"
+                "click @ui.toggle" : "toggleCompleted",
+                "click @ui.titleLabel" : "beginEditing",
+                "keypress @ui.titleInput" : "doEditing",
+                "blur @ui.titleInput" : "finishEditing",
+                "click @ui.removeBtn" : "destroy"
             },
             modelEvents : {
                 "change" : "render",
                 "destory" : "remove"
             },
+
             onRender : function() {
                 this.$el.toggleClass('completed', this.model.get('completed'));
             },
             toggleCompleted : function() {
-                this.model.toggle();
+                this.model.toggleCompleted().save();
             },
-            viewEditing : function() {
-                this.$el.addClass('editing');
-                this.ui.$title.focus();
+            beginEditing : function() {
+                this.$el.addClass('editable');
+                this.ui.titleInput.focus();
             },
-            edit : function(e) {
-                if (e.which === RETURN_KEY) {
-                    this.closeEditing();
+            doEditing : function(event) {
+                if (event.which === RETURN_KEY) {
+                    this.finishEditing();
                 }
             },
-            closeEditing : function() {
-                this.$el.removeClass('editing');
+            finishEditing : function() {
+                this.$el.removeClass('editable');
                 this.model.save({
-                    title : this.ui.$title.val()
+                    title : this.ui.titleInput.val()
                 });
             },
             destroy : function() {
@@ -104,7 +123,6 @@ $(function() {
 
         views.TodoCollectionView = Backbone.Marionette.CompositeView.extend({
 
-            el : $("#todosView"),
             template : "#todosTemplate",
             itemView : views.TodoView,
             itemViewContainer : "#todoCollection"
@@ -116,22 +134,6 @@ $(function() {
     // --------
     // start todo management Application
     // --------
-    // var todoAppView = new TodoAppView();
-    todoApp.on('initialize:after', function() {
-
-        this.todos = new todoApp.models.TodoCollection();
-        this.todoInputView = new todoApp.views.TodoInputView({
-            model : this.todos
-        });
-        this.todoInputView.render();
-        this.todosCollectionView = new todoApp.views.TodoCollectionView({
-            collection : this.todos
-        });
-        this.todosCollectionView.render();
-        this.todos.fetch();
-
-    });
-
     todoApp.start();
 
 });

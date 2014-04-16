@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Todo application on the Backbone!</title>
+<title>Todo application on the Backbone !</title>
 
 <!-- Bootstrap -->
 <link href="../../../vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -16,7 +16,27 @@
     <![endif]-->
 </head>
 <body>
-    <h1>Todo application on the Backbone!</h1>
+    <header>
+        <nav id="headerNav" class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu<b
+                                class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="../">Go to top</a></li>
+                                <li class="divider"></li>
+                                <li><a href="../backbone.marionette/todoApp.html">Go to Backbone with
+                                        marionette</a></li>
+
+                            </ul></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <h1>Todo application on the Backbone !</h1>
 
     <div id="todoApp">
 
@@ -34,7 +54,6 @@
         </div>
 
     </div>
-
     <script src="../../../vendor/jquery/js/jquery.js"></script>
     <script src="../../../vendor/underscore/js/underscore.js"></script>
     <script src="../../../vendor/JSON-js/js/json2.js"></script>
@@ -51,7 +70,7 @@
             <input class="title form-control" value="<%- title %>">
         </td>
         <td class="destroyIcon">
-            <button class="destroy glyphicon glyphicon-trash" title="remove"></button>
+            <a class="destroy glyphicon glyphicon-trash" title="remove"></a>
         </td>
     </script>
 
