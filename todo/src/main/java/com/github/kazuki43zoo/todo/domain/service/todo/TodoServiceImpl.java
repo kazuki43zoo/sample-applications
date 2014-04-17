@@ -8,11 +8,13 @@ import org.dozer.Mapper;
 import org.joda.time.DateTime;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.date.DateFactory;
 
 import com.github.kazuki43zoo.todo.domain.model.Todo;
 import com.github.kazuki43zoo.todo.domain.repository.todo.TodoRepository;
 
+@Transactional
 @Service
 public class TodoServiceImpl implements TodoService {
 
@@ -25,11 +27,13 @@ public class TodoServiceImpl implements TodoService {
     @Inject
     Mapper beanMapper;
 
+    @Transactional(readOnly = true)
     public List<Todo> getTodos() {
         Sort sort = new Sort("completed", "createdAt");
         return todoRepository.findAll(sort);
     }
 
+    @Transactional(readOnly = true)
     public Todo getTodo(String todoId) {
         return todoRepository.findOne(todoId);
     }
