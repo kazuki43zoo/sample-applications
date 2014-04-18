@@ -1,24 +1,6 @@
 'use strict';
 
-// --------
-// Models
-// --------
-var todoResource = angular.module("todoResource", [ "ngResource" ]);
-todoResource.factory("Todo", [ "$resource", function($resource) {
-    return $resource("../../../../api/v1/todos/:todoId", {
-        todoId : "@todoId"
-    }, {
-        put : {
-            method : "PUT"
-        }
-    });
-} ]);
-
-// --------
-// Controllers
-// --------
-var todoApp = angular.module("todoApp", [ "todoResource", "customDirectives" ]);
-todoApp.controller("TodoCtrl", [ "$scope", "Todo", function TodoCtrl($scope, Todo) {
+todoApp.controller("TodoCtrl", [ "$scope", "Todo", function($scope, Todo) {
     $scope.todos = Todo.query();
     $scope.editableTodo = null;
 

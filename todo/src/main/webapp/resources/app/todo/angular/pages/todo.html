@@ -1,0 +1,32 @@
+<h1>Todo application on AngularJS !</h1>
+
+<div id="todoView" ng-controller="TodoCtrl">
+
+    <div id="todoInputView">
+        <div class="form-group">
+            <div>
+                <input class="form-control" placeholder="What needs to be done ?" autofocus="autofocus"
+                    ng-model="titleInput" ng-custom-enter="add()">
+            </div>
+        </div>
+    </div>
+
+    <div id="todosView">
+        <table id="todoCollection" class="table table-hover">
+            <tr ng-repeat="todo in todos" ng-class="{completed: todo.completed, editable: todo == editableTodo}" ng-cloak>
+                <td class="completedIcon">
+                    <input type="checkbox" class="toggle glyphicon glyphicon-ok" ng-model="todo.completed" ng-change="toggleCompleted(todo)"></td>
+                <td>
+                    <label ng-click="beginEditing(todo)">{{todo.title}}</label>
+                    <input class="title form-control" ng-model="todo.title" ng-blur="finishEditing(todo)" ng-custom-focus="todo == editableTodo" ng-custom-enter="doEditing(todo)">
+                </td>
+                <td class="destroyIcon">
+                    <a class="destroy glyphicon glyphicon-trash" ng-click="destroy(todo)"></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+

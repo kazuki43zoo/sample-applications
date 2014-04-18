@@ -4,12 +4,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Todo application on AngularJS !</title>
+<title>Todo application on Backbone !</title>
 
 <!-- load style sheet -->
 <link href="../../../vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="../todoApp.css" rel="stylesheet">
-<link href="todoApp.css" rel="stylesheet">
 
 <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -28,58 +27,57 @@
                             <ul class="dropdown-menu">
                                 <li><a href="../">Go to top</a></li>
                                 <li class="divider"></li>
-                                <li><a href="../backbone/todoApp.html">Go to Backbone</a></li>
-                                <li><a href="../backbone.marionette/todoApp.html">Go to Backbone with
+                                <li><a href="../backbone.marionette/">Go to Backbone with
                                         marionette</a></li>
-
-                            </ul></li>
+                                <li><a href="../angular/">Go to Angular</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
 
-    <h1>Todo application on AngularJS !</h1>
+    <h1>Todo application on Backbone !</h1>
 
-    <div id="todoApp" ng-app="todoApp" ng-controller="TodoCtrl">
+    <div id="todoView">
 
         <div id="todoInputView">
             <div class="form-group">
                 <div>
-                    <input class="form-control" placeholder="What needs to be done ?"
-                        autofocus="autofocus" ng-model="titleInput" ng-custom-enter="add()">
+                    <input id="title" class="form-control" placeholder="What needs to be done ?" autofocus="autofocus">
                 </div>
             </div>
         </div>
 
         <div id="todosView">
             <table id="todoCollection" class="table table-hover">
-                <tr ng-repeat="todo in todos" ng-class="{completed: todo.completed, editable: todo == editableTodo}" ng-cloak>
-                    <td class="completedIcon">
-                        <input type="checkbox" class="toggle glyphicon glyphicon-ok" ng-model="todo.completed" ng-change="toggleCompleted(todo)">
-                    </td>
-                    <td>
-                        <label ng-click="beginEditing(todo)">{{todo.title}}</label>
-                        <input class="title form-control" ng-model="todo.title" ng-blur="finishEditing(todo)" ng-custom-focus="todo == editableTodo" ng-custom-enter="doEditing(todo)">
-                    </td>
-                    <td class="destroyIcon">
-                        <a class="destroy glyphicon glyphicon-trash" ng-click="destroy(todo)"></a>
-                    </td>
-                </tr>
             </table>
         </div>
 
     </div>
-    
 
     <!-- load scripts -->
     <script src="../../../vendor/jquery/js/jquery.js"></script>
     <script src="../../../vendor/bootstrap/js/bootstrap.js"></script>
-    <script src="../../../vendor/angular/js/angular.js"></script>
-    <script src="../../../vendor/angular-route/js/angular-route.js"></script>
-    <script src="../../../vendor/angular-resource/js/angular-resource.js"></script>
-    <script src="./customDirectives.js"></script>
-    <script src="./todoApp.js"></script>
+    <script src="../../../vendor/underscore/js/underscore.js"></script>
+    <script src="../../../vendor/JSON-js/js/json2.js"></script>
+    <script src="../../../vendor/backbone/js/backbone.js"></script>
+    <script src="app.js"></script>
+
+    <!-- define templates -->
+    <script type="text/template" id="todoTemplate">
+        <td class="completedIcon">
+            <input class="toggle glyphicon glyphicon-ok" type="checkbox" <%= completed ? 'checked="checked"' : '' %> />
+        </td>
+        <td>
+            <label><%- title %></label>
+            <input class="title form-control" value="<%- title %>">
+        </td>
+        <td class="destroyIcon">
+            <a class="destroy glyphicon glyphicon-trash"></a>
+        </td>
+    </script>
 
 </body>
 

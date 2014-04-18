@@ -117,7 +117,7 @@ $(function() {
 
     todoApp.TodoAppView = Backbone.View.extend({
 
-        el : $("#todoApp"),
+        el : $("#todoView"),
 
         render : function() {
             this.todos = new todoApp.TodoCollection();
