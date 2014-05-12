@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Todo application on Backbone !</title>
+
+<!-- load style sheet -->
+<link href="../../vendor2/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="todoApp.css" rel="stylesheet">
+
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <header>
+        <nav id="headerNav" class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu<b
+                                class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="../">Go to top</a></li>
+                                <li class="divider"></li>
+                                <li><a href="../backbone.marionette/">Go to Backbone with
+                                        marionette</a></li>
+                                <li><a href="../angular/">Go to Angular</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <h1>Todo application on Backbone !</h1>
+
+    <div id="todoView">
+
+        <div id="todoInputView">
+            <div class="form-group">
+                <div>
+                    <input id="title" class="form-control" placeholder="What needs to be done ?" autofocus="autofocus">
+                </div>
+            </div>
+        </div>
+
+        <div id="todosView">
+            <table id="todoCollection" class="table table-hover">
+            </table>
+        </div>
+
+    </div>
+
+    <!-- load scripts -->
+    <script data-main="../../app/todo2/TodoAppMain" src="../../vendor2/requirejs/require.js"></script>
+
+</body>
+
+</html>
