@@ -2,12 +2,15 @@
     "name": "todo",
     "version": "1.0.0-SNAPSHOT",
     "dependencies": {
-        "jquery": "~2.0.3",
-        "lodash": "~2.4.1",
-        "bootstrap": "~3.0.3",
-        "backbone": "~1.1.0",
-        "handlebars": "~1.1.2",
-        "requirejs": "~2.1.10",
-        "requirejs-text": "~2.0.10"
+        "angular": "latest",
+        "angular-resource": "latest",
+        "angular-route": "latest",
+        "jquery": "latest",
+        "lodash": "latest",
+        "bootstrap": "latest",
+        "backbone": "latest",
+        "handlebars": "latest",
+        "requirejs": "latest",
+        "requirejs-text": "latest"
     }
 }

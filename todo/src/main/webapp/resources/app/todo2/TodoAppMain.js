@@ -18,7 +18,7 @@ require.config({
         bootstrap : [ 'jquery' ]
     },
     paths : {
-        jquery : 'vendor2/jquery/jquery.min',
+        jquery : 'vendor2/jquery/dist/jquery.min',
         underscore : 'vendor2/lodash/dist/lodash.min',
         backbone : 'vendor2/backbone/backbone',
         handlebars : 'vendor2/handlebars/handlebars.min',
